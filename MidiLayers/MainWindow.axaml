@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:MidiLayers.ViewModels"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MidiLayers.MainWindow"
+        x:DataType="viewModels:MainViewModel"
+        Title="MidiLayers">
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock
+                Margin="6"
+                DockPanel.Dock="Top">
+                Jeremy's MIDI Layers
+            </TextBlock>
+            <Button Click="AddButton_OnClick"
+                    Margin="12"
+                    CornerRadius="6"
+                    HorizontalAlignment="Left"
+                    FontSize="16"
+                    DockPanel.Dock="Top">
+                <DockPanel Margin="20 6">
+                    <avalonia:MaterialIcon Kind="Add" Width="24" Height="24" />
+                    <TextBlock Margin="8 0" VerticalAlignment="Center">Add</TextBlock>
+                </DockPanel>
+            </Button>
+            <ItemsControl ItemsSource="{Binding Layers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="12">
+
+                            <Border CornerRadius="6" Background="#eee"
+                                    BoxShadow="0 0 10 #999">
+
+                                <DockPanel>
+
+                                    <DockPanel
+                                        Background="#ddd"
+                                        DockPanel.Dock="Top">
+                                        <Button
+                                            HorizontalAlignment="Right"
+                                            Background="Transparent"
+                                            BorderThickness="0">
+                                            <avalonia:MaterialIcon Kind="Times" Foreground="Red" />
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <Button Click="DeleteButton_OnClick">
+                                                        <DockPanel>
+                                                            <avalonia:MaterialIcon Kind="Times" />
+                                                            <TextBlock>Confirm delete</TextBlock>
+                                                        </DockPanel>
+                                                    </Button>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
+                                    </DockPanel>
+
+                                    <StackPanel Margin="16 24 16 32">
+                                        <TextBlock>In</TextBlock>
+                                        <ComboBox
+                                            SelectedItem="{Binding Input}"
+                                            ItemsSource="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).InputMappings}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Label}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBlock>Out</TextBlock>
+                                        <ComboBox
+                                            SelectedItem="{Binding Output}"
+                                            ItemsSource="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).OutputMappings}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Label}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBlock>Mod</TextBlock>
+                                        <TextBox>255</TextBox>
+                                        <TextBlock>Mute</TextBlock>
+                                        <ToggleButton IsChecked="{Binding IsMute}">Mute</ToggleButton>
+                                    </StackPanel>
+
+                                </DockPanel>
+
+                            </Border>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel ItemWidth="220" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
